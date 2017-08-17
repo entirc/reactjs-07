@@ -10,16 +10,27 @@ module.exports = {
     path: path.resolve(__dirname, 'public')
   },
   module: {
-    loaders: [
+    rules: [
       {
-        loader: 'babel-loader',
         test: /\.js$/,
-        query: {
-          presets: [
-            "react",
-            "es2015"
-          ]
-        }
+        use: [
+          { 
+            loader: "babel-loader",
+            query: {
+              presets: [
+                "react",
+                "es2015"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" }
+        ]
       }
     ]
   },

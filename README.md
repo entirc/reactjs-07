@@ -1,2 +1,2 @@
-# react-webpack-babel-template
-Template usando React, Webpack e Babel
+# reactjs-07
+ReactJS #07 - Todo List App
