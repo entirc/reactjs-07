@@ -6,18 +6,36 @@ class TodoList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tasks: []
+      tasks: { }
     }
     this.addTask = this.addTask.bind(this)
+    this.deleteTask = this.deleteTask.bind(this)
+    this.toggleTaskState = this.toggleTaskState.bind(this)
   }
 
   addTask(event) {
     event.preventDefault()
-    const task = {
-      key: Date.now(),
-      text:this.taskInput.value.trim()
+    const text = this.taskInput.value.trim()
+    if (text.length > 0) {
+      const key = Date.now()
+      const task = {
+        text,
+        active: true
+      }
+      const tasks = { ...this.state.tasks, [key]: task }
+      this.setState({ tasks })
     }
-    const tasks = [...this.state.tasks, task]
+  }
+
+  deleteTask(key) {
+    const tasks = { ...this.state.tasks }
+    delete tasks[key]
+    this.setState({ tasks })
+  }
+
+  toggleTaskState(key, task) {
+    const updatedTask = { ...task, active: !task.active }
+    const tasks = { ...this.state.tasks, [key]: updatedTask }
     this.setState({ tasks })
   }
 
@@ -27,14 +45,19 @@ class TodoList extends Component {
         <div className="header">
           <form onSubmit={this.addTask}>
             <input 
+              className="shadow"
               type="text" 
               placeholder="Enter Task"
               ref={ input => this.taskInput = input }
             />
-            <button type="submit">Add</button>
+            <button className="shadow" type="submit">Add</button>
           </form>
         </div>
-        <TodoItems tasks={this.state.tasks}/>
+        <TodoItems 
+          tasks={this.state.tasks} 
+          deleteTask={this.deleteTask}
+          toggleTaskState={this.toggleTaskState}
+        />
       </div>
     )
   }

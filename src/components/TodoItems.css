@@ -1,13 +1,4 @@
 .todo-list-main .todo-list-items {
+  text-align: left;
   list-style: none;
-  padding-left: 0;
-  width: 255px;
-}
-
-.todo-list-main .todo-list-items li {
-  color: #333;
-  background-color: rgba(255,255,255,.5);
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 5px;
 }
