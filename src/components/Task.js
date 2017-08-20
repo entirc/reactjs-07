@@ -27,7 +27,7 @@ class Task extends Component {
           onClick={this.toggleTaskState}>
           {task.text}
         </a>
-        <button className="fa fa-trash" ariaHidden="true" onClick={this.deleteTask}>
+        <button className="fa fa-trash" aria-hidden="true" onClick={this.deleteTask}>
         </button>
       </span>
     )

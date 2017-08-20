@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TodoItems from './TodoItems'
+import uuid from 'uuid/v4'
 import './TodoList.css'
 
 class TodoList extends Component {
@@ -13,11 +14,22 @@ class TodoList extends Component {
     this.toggleTaskState = this.toggleTaskState.bind(this)
   }
 
+  componentWillMount() {
+    const tasks = JSON.parse(localStorage.getItem(`tasks`))
+    if (tasks) {
+      this.setState({ tasks })
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem(`tasks`, JSON.stringify(nextState.tasks))
+  }
+
   addTask(event) {
     event.preventDefault()
     const text = this.taskInput.value.trim()
     if (text.length > 0) {
-      const key = Date.now()
+      const key = uuid()
       const task = {
         text,
         active: true
@@ -25,6 +37,8 @@ class TodoList extends Component {
       const tasks = { ...this.state.tasks, [key]: task }
       this.setState({ tasks })
     }
+    this.taskInput.value = ''
+    this.taskInput.focus()
   }
 
   deleteTask(key) {
