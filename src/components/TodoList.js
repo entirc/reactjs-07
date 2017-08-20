@@ -12,7 +12,9 @@ class TodoList extends Component {
     this.addTask = this.addTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
     this.toggleTaskState = this.toggleTaskState.bind(this)
-    this.updateTasks = this.updateTasks.bind(this)
+    this.updateAllTasks = this.updateAllTasks.bind(this)
+    this.updateTaskDescription = this.updateTaskDescription.bind(this)
+    this.removeAllTasks = this.removeAllTasks.bind(this)
   }
 
   componentWillMount() {
@@ -28,12 +30,12 @@ class TodoList extends Component {
 
   addTask(event) {
     event.preventDefault()
-    const text = this.taskInput.value.trim()
-    if (text.length > 0) {
+    const description = this.taskInput.value.trim()
+    if (description.length > 0) {
       const key = uuid()
       const task = {
         order: Object.getOwnPropertyNames(this.state.tasks).length,
-        text,
+        description,
         active: true
       }
       const tasks = { ...this.state.tasks, [key]: task }
@@ -47,7 +49,7 @@ class TodoList extends Component {
     const tasks = { ...this.state.tasks }
     delete tasks[key]
 
-    //reordering the task orders
+    //reordering the tasks
     Object.getOwnPropertyNames(tasks)
       .sort((leftKey, rightKey) => {
         const leftTask = tasks[leftKey]
@@ -67,8 +69,19 @@ class TodoList extends Component {
     this.setState({ tasks })
   }
 
-  updateTasks(newTasks) {
+  updateTaskDescription(key, description) {
+    const task = this.state.tasks[key]
+    const updatedTask = { ...task, description }
+    const tasks = { ...this.state.tasks, [key]: updatedTask }
+    this.setState({ tasks })
+  }
+
+  updateAllTasks(newTasks) {
     this.setState({ tasks: newTasks })
+  }
+
+  removeAllTasks() {
+    this.setState({ tasks: { } })
   }
 
   render() {
@@ -79,17 +92,19 @@ class TodoList extends Component {
             <input 
               className="shadow"
               type="text" 
-              placeholder="Enter Task"
+              placeholder="What needs to be done?"
               ref={ input => this.taskInput = input }
             />
-            <button className="shadow" type="submit">Add</button>
+            <button className="btn shadow fa fa-plus" aria-hidden="true" title="Add task" type="submit"></button>
+            <button className="btn shadow fa fa-recycle" aria-hidden="true" title="Remove all tasks" onClick={this.removeAllTasks}></button>
           </form>
         </div>
         <TodoItems 
           tasks={this.state.tasks} 
           deleteTask={this.deleteTask}
           toggleTaskState={this.toggleTaskState}
-          updateTasks={this.updateTasks}
+          updateAllTasks={this.updateAllTasks}
+          updateTaskDescription={this.updateTaskDescription}
         />
       </div>
     )

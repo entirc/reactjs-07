@@ -21,13 +21,14 @@ class TodoItems extends Component {
               index={key} 
               deleteTask={this.props.deleteTask}
               toggleTaskState={this.props.toggleTaskState}
+              updateTaskDescription={this.props.updateTaskDescription}
             />
           </li>
         )
       })
     return <SortableList 
               tasks={this.props.tasks} 
-              updateTasks={this.props.updateTasks}>
+              updateAllTasks={this.props.updateAllTasks}>
               {items}
             </SortableList>
   }

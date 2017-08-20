@@ -9,17 +9,22 @@
 }
 
 .task a,
-.task.task-active {
+.task .task-active {
   text-decoration: none;
   color: #333;
 }
 
-.task.task-inactive {
+.task .task-inactive {
   text-decoration: line-through;
-  opacity: 0.4;
+  opacity: 0.15;
+}
+
+li .task {
+  overflow: auto;
 }
 
 .task button {
   float: right;
   cursor: pointer;
+  margin: 0 4px;
 }

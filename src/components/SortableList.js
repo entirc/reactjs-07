@@ -19,7 +19,7 @@ const SortableList = (props) =>
       orderedKeys
         .reverse() //we need to reverse it because the list is in descending order (see TodoItems.render() method)
         .forEach((key, i) => tasks[key].order = i)
-      props.updateTasks(tasks)
+      props.updateAllTasks(tasks)
     }}
     >
     {props.children}
