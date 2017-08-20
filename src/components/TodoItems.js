@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import Task from './Task'
+import SortableList from './SortableList'
 import './TodoItems.css'
 
 class TodoItems extends Component {
   render() {
     const items = Object.getOwnPropertyNames(this.props.tasks)
-      .reverse()
+      .sort((leftKey, rightKey) => {
+        const leftTask = this.props.tasks[leftKey]
+        const rightTask = this.props.tasks[rightKey]         
+        return rightTask.order - leftTask.order //descending order
+      })
       .map(key => {
         const task = this.props.tasks[key] 
         return (
-          <li key={key}>
+          <li key={key} 
+              data-id={key}> {/* data-id is only used by SortableJS */}
             <Task 
               task={task} 
               index={key} 
@@ -19,7 +25,11 @@ class TodoItems extends Component {
           </li>
         )
       })
-    return <ul className="todo-list-items">{items}</ul>
+    return <SortableList 
+              tasks={this.props.tasks} 
+              updateTasks={this.props.updateTasks}>
+              {items}
+            </SortableList>
   }
 }
 

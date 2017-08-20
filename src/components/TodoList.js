@@ -12,6 +12,7 @@ class TodoList extends Component {
     this.addTask = this.addTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
     this.toggleTaskState = this.toggleTaskState.bind(this)
+    this.updateTasks = this.updateTasks.bind(this)
   }
 
   componentWillMount() {
@@ -31,6 +32,7 @@ class TodoList extends Component {
     if (text.length > 0) {
       const key = uuid()
       const task = {
+        order: Object.getOwnPropertyNames(this.state.tasks).length,
         text,
         active: true
       }
@@ -44,6 +46,18 @@ class TodoList extends Component {
   deleteTask(key) {
     const tasks = { ...this.state.tasks }
     delete tasks[key]
+
+    //reordering the task orders
+    Object.getOwnPropertyNames(tasks)
+      .sort((leftKey, rightKey) => {
+        const leftTask = tasks[leftKey]
+        const rightTask = tasks[rightKey]         
+        return leftTask.order - rightTask.order
+      })
+      .forEach((key, i) => {
+        tasks[key].order = i
+      })
+
     this.setState({ tasks })
   }
 
@@ -51,6 +65,10 @@ class TodoList extends Component {
     const updatedTask = { ...task, active: !task.active }
     const tasks = { ...this.state.tasks, [key]: updatedTask }
     this.setState({ tasks })
+  }
+
+  updateTasks(newTasks) {
+    this.setState({ tasks: newTasks })
   }
 
   render() {
@@ -71,6 +89,7 @@ class TodoList extends Component {
           tasks={this.state.tasks} 
           deleteTask={this.deleteTask}
           toggleTaskState={this.toggleTaskState}
+          updateTasks={this.updateTasks}
         />
       </div>
     )

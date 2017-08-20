@@ -19,10 +19,12 @@ module.exports = {
             query: {
               presets: [
                 "react",
-                "es2015"
+                "es2015",
+                "stage-0"
               ],
               "plugins": [
-                "transform-object-rest-spread"
+                "transform-object-rest-spread",
+                "transform-decorators-legacy"
               ]
             }
           }
